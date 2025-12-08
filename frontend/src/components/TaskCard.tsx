@@ -7,13 +7,13 @@ interface TaskCardProps {
 
 export function TaskCard({ task, onComplete }: TaskCardProps) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-slate-300 bg-slate-200 px-4 py-3 shadow-md shadow-black/10">
+    <div className="flex items-center justify-between gap-4 rounded-xl border border-slate-600 bg-slate-700/60 backdrop-blur-md px-4 py-3 shadow-lg shadow-cyan-500/10 hover:border-cyan-500/50 transition-all">
       <div className="flex-1">
-        <div className="text-base font-bold text-slate-900">{task.title}</div>
-        <div className="text-xs text-slate-700 mt-1">{task.description}</div>
+        <div className="text-base font-bold text-white drop-shadow-md">{task.title}</div>
+        <div className="text-xs text-slate-400 mt-1">{task.description}</div>
       </div>
       <button
-        className="rounded-md border border-slate-500 bg-slate-100 px-4 py-1.5 text-xs font-semibold text-slate-800 transition hover:bg-white hover:shadow-inner hover:shadow-blue-100 active:translate-y-0.5"
+        className="rounded-lg border border-cyan-500/60 bg-cyan-500/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-cyan-300 transition hover:bg-cyan-500/30 hover:text-white hover:shadow-lg hover:shadow-cyan-500/30 active:translate-y-0.5"
         type="button"
         onClick={() => onComplete(task.id)}
       >
