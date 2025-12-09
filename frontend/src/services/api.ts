@@ -41,7 +41,7 @@ export async function updateTask(
 ): Promise<Task> {
   try {
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -50,7 +50,9 @@ export async function updateTask(
     if (!response.ok) {
       throw new Error("Failed to update task");
     }
-    return await response.json();
+    
+    const text = await response.text();
+    return text ? JSON.parse(text) : { id, ...updates } as Task;
   } catch (error) {
     console.error("Error updating task:", error);
     throw error;

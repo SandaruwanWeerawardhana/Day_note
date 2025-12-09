@@ -10,17 +10,8 @@ export type Task = {
   completed: boolean;
 };
 
-const seedTasks: Task[] = [
-  {
-    id: 1,
-    title: "Buy books",
-    description: "Buy books for the next school year",
-    completed: false,
-  },
-];
-
 function App() {
-  const [tasks, setTasks] = useState<Task[]>(seedTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,8 +24,6 @@ function App() {
         const fetchedTasks = await api.getTasks();
         if (fetchedTasks != null && fetchedTasks.length > 0) {
           setTasks(fetchedTasks);
-        }else {
-          setTasks(seedTasks);
         }
 
         setError(null);
