@@ -81,7 +81,10 @@ function App() {
           aria-hidden
         />
 
-        <div className="flex-1.5 flex flex-col gap-4" aria-live="polite">
+        <div
+          className="flex-1.5 flex flex-col gap-4 min-h-[400px] max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-cyan-500/50 scrollbar-track-slate-700/20"
+          aria-live="polite"
+        >
           {visibleTasks.length === 0 ? (
             <p className="m-0 rounded-lg border border-dashed border-cyan-500/40 bg-slate-700/30 backdrop-blur-sm px-4 py-3 text-sm font-semibold text-slate-300 drop-shadow">
               All tasks are completed. Add a new one!
