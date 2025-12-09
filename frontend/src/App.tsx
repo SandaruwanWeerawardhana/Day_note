@@ -1,111 +1,34 @@
 import { useState, useEffect } from "react";
-import type { FormEvent } from "react";
+import { useTasks } from "./hooks/useTasks";
 import { TaskCard } from "./components/TaskCard";
-import * as api from "./services/api";
+import type { FormEvent } from "react";
 
-export type Task = {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-};
+export type { Task } from "./types/task";
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const { visibleTasks, loading, error, fetchTasks, addTask, completeTask } =
+    useTasks();
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setLoading(true);
-        const fetchedTasks = await api.getTasks();
-        if (fetchedTasks != null && fetchedTasks.length > 0) {
-          setTasks(fetchedTasks);
-        }
-
-        setError(null);
-      } catch (err) {
-        console.error("Failed to fetch tasks, using seed data:", err);
-        setError("Failed to load tasks from server. Using local data.");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTasks();
-  }, []);
+  }, [fetchTasks]);
 
-  const handleAdd = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const trimmedTitle = title.trim();
-    const trimmedDescription = description.trim();
-
-    if (!trimmedTitle) return;
-
-    try {
-      setLoading(true);
-      const newTask = await api.createTask({
-        title: trimmedTitle,
-        description: trimmedDescription || "No description provided",
-        completed: false,
-      });
-
-      setTasks((prev) => [newTask, ...prev]);
-      setTitle("");
-      setDescription("");
-      setError(null);
-    } catch (err) {
-      console.error("Failed to create task:", err);
-      setError("Failed to create task. Please try again.");
-
-      const newTask: Task = {
-        id: Date.now(),
-        title: trimmedTitle,
-        description: trimmedDescription || "No description provided",
-        completed: false,
-      };
-      setTasks((prev) => [newTask, ...prev]);
-      setTitle("");
-      setDescription("");
-    } finally {
-      setLoading(false);
-    }
+    await addTask(title, description);
+    setTitle("");
+    setDescription("");
   };
-
-  const handleComplete = async (id: number) => {
-    try {
-      setLoading(true);
-      await api.completeTask(id);
-      setTasks((prev) =>
-        prev.map((task) =>
-          task.id === id ? { ...task, completed: true } : task
-        )
-      );
-      setError(null);
-    } catch (err) {
-      console.error("Failed to complete task:", err);
-      setError("Failed to complete task. Please try again.");
-
-      setTasks((prev) =>
-        prev.map((task) =>
-          task.id === id ? { ...task, completed: true } : task
-        )
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const visibleTasks = tasks.filter((task) => !task.completed).slice(0, 5);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-2 py-2">
-      <div className="w-[1100px] h-[600px] max-w-[95vw] bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/10 border border-cyan-500/20 flex flex-col md:flex-row gap-8 p-8 md:p-9">
+      <div className="w-[1100px] h-[650px] max-w-[95vw] bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/10 border border-cyan-500/20 flex flex-col md:flex-row gap-8 p-8 md:p-9">
         <form
           className="flex-1 max-w-md flex flex-col gap-4"
-          onSubmit={handleAdd}
+          onSubmit={handleSubmit}
         >
           <div className="text-lg text-center font-bold text-cyan-400 drop-shadow-lg underline">
             Add a Task
@@ -123,7 +46,7 @@ function App() {
               className="w-full rounded-lg border border-slate-600 bg-slate-700/50 backdrop-blur-sm px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/30"
               type="text"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
               required
             />
@@ -135,7 +58,7 @@ function App() {
             <textarea
               className="w-full rounded-lg border border-slate-600 bg-slate-700/50 backdrop-blur-sm px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/30"
               value={description}
-              onChange={(event) => setDescription(event.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
               rows={3}
             />
@@ -168,7 +91,7 @@ function App() {
             </p>
           ) : (
             visibleTasks.map((task) => (
-              <TaskCard key={task.id} task={task} onComplete={handleComplete} />
+              <TaskCard key={task.id} task={task} onComplete={completeTask} />
             ))
           )}
         </div>
