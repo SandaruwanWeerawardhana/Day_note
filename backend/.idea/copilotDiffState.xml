@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/backend/src/main/java/com/coveragex/backend/controller/TaskController.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/backend/src/main/java/com/coveragex/backend/controller/TaskController.java" />
+              <option name="originalContent" value="package com.coveragex.backend.controller;&#10;&#10;import com.coveragex.backend.service.TaskService;&#10;import lombok.RequiredArgsConstructor;&#10;import org.springframework.http.HttpStatus;&#10;import org.springframework.http.ResponseEntity;&#10;import org.springframework.scheduling.config.Task;&#10;import org.springframework.web.bind.annotation.*;&#10;&#10;import java.util.List;&#10;&#10;@RestController&#10;@RequiredArgsConstructor&#10;@CrossOrigin&#10;@RequestMapping(&quot;api/coveragex/task&quot;)&#10;public class TaskController {&#10;&#10;    final TaskService taskService;&#10;&#10;    @PostMapping&#10;    public ResponseEntity&lt;Task&gt; create(@RequestBody Task task) {&#10;        Task created = taskService.createTask(task);&#10;        return ResponseEntity.status(HttpStatus.CREATED).body(created);&#10;    }&#10;&#10;    @PostMapping(&quot;/{id}/done&quot;)&#10;    public ResponseEntity&lt;Void&gt; markDone(@PathVariable Long id) {&#10;        taskService.markDone(id);&#10;        return ResponseEntity.noContent().build();&#10;    }&#10;    @GetMapping&#10;    public List&lt;Task&gt; latestFive() {&#10;        return taskService.getLatestFive();&#10;    }&#10;&#10;}&#10;" />
+              <option name="updatedContent" value="package com.coveragex.backend.controller;&#10;&#10;import com.coveragex.backend.service.TaskService;&#10;import com.coveragex.backend.dto.Task;&#10;import lombok.RequiredArgsConstructor;&#10;import org.springframework.http.HttpStatus;&#10;import org.springframework.http.ResponseEntity;&#10;import org.springframework.web.bind.annotation.*;&#10;&#10;import java.util.List;&#10;&#10;@RestController&#10;@RequiredArgsConstructor&#10;@CrossOrigin&#10;@RequestMapping(&quot;api/coveragex/task&quot;)&#10;public class TaskController {&#10;&#10;    final TaskService taskService;&#10;&#10;    @PostMapping&#10;    public ResponseEntity&lt;Task&gt; create(@RequestBody Task task) {&#10;        Task created = taskService.createTask(task);&#10;        return ResponseEntity.status(HttpStatus.CREATED).body(created);&#10;    }&#10;&#10;    @PostMapping(&quot;/{id}/done&quot;)&#10;    public ResponseEntity&lt;Void&gt; markDone(@PathVariable Long id) {&#10;        taskService.markDone(id);&#10;        return ResponseEntity.noContent().build();&#10;    }&#10;    @GetMapping&#10;    public List&lt;Task&gt; latestFive() {&#10;        return taskService.getLatestFive();&#10;    }&#10;&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
