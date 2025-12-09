@@ -20,7 +20,7 @@ public class TaskService {
     private final ModelMapper mapper;
 
     public List<Task> getLatestFive() {
-        List<TaskEntity> entities = repo.findTop5ByCompletedFalseOrderByCreatedAtDesc();
+        List<TaskEntity> entities = repo.findTop5ByCreated();
         return entities.stream().map(e -> mapper.map(e, Task.class)).collect(Collectors.toList());
     }
 

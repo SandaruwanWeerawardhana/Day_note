@@ -12,23 +12,22 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@RequestMapping("api/coveragex/task")
+@RequestMapping("/api")
 public class TaskController {
 
     final TaskService taskService;
-
-    @PostMapping
+    @PostMapping("/tasks")
     public ResponseEntity<Task> create(@RequestBody Task task) {
         Task created = taskService.createTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PostMapping("/{id}/done")
+    @PostMapping("/tasks/{id}")
     public ResponseEntity<Void> markDone(@PathVariable Long id) {
         taskService.markDone(id);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping
+    @GetMapping("/tasks")
     public List<Task> latestFive() {
         return taskService.getLatestFive();
     }
