@@ -74,9 +74,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-2 py-2">
-      <div className="w-[1100px] max-w-[95vw] bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/10 border border-cyan-500/20 flex flex-col md:flex-row gap-8 p-8 md:p-9">
+      <div className="w-[1100px] h-[600px] max-w-[95vw] bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/10 border border-cyan-500/20 flex flex-col md:flex-row gap-8 p-8 md:p-9">
         <form className="flex-1 max-w-md flex flex-col gap-4" onSubmit={handleAdd}>
-          <div className="text-lg font-bold text-cyan-400 drop-shadow-lg">Add a Task</div>
+          <div className="text-lg text-center font-bold text-cyan-400 drop-shadow-lg underline">Add a Task</div>
           <label className="flex flex-col gap-2 text-slate-300">
             <span className="text-xs font-semibold uppercase tracking-wide drop-shadow">Title</span>
             <input
@@ -99,7 +99,7 @@ function App() {
             />
           </label>
           <button
-            className="inline-flex items-center justify-center self-start rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-cyan-500/30 transition hover:-translate-y-0.5 hover:shadow-cyan-500/50 hover:shadow-xl active:translate-y-0"
+            className="inline-flex items-center justify-center self-start rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-cyan-500/30 transition hover:-translate-y-0.5 hover:shadow-cyan-500/50 hover:shadow-xl active:translate-y-0 text-center"
             type="submit"
           >
             Add
