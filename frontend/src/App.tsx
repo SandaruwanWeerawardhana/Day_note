@@ -102,7 +102,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-2 py-2">
-      <div className="w-[1100px] h-[600px] max-w-[95vw] bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/10 border border-cyan-500/20 flex flex-col md:flex-row gap-8 p-8 md:p-9">
+      <div className="w-[1100px] h-[650px] max-w-[95vw] bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/10 border border-cyan-500/20 flex flex-col md:flex-row gap-8 p-8 md:p-9">
         <form
           className="flex-1 max-w-md flex flex-col gap-4"
           onSubmit={handleAdd}
@@ -159,7 +159,7 @@ function App() {
         />
 
         <div
-          className="flex-1.5 flex flex-col gap-4 min-h-[400px] max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-cyan-500/50 scrollbar-track-slate-700/20"
+          className="flex-1.5 flex flex-col gap-4"
           aria-live="polite"
         >
           {visibleTasks.length === 0 ? (
