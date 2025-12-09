@@ -11,3 +11,4 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     List<TaskEntity> findTop5ByCreated();
 }
 
+
