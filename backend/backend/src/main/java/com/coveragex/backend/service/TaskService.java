@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,12 +32,11 @@ public class TaskService {
         return mapper.map(saved, Task.class);
     }
 
-
+    @Transactional
     public void markDone(Long id) {
         TaskEntity t = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found"));
         t.setCompleted(true);
-        t.setCompletedAt(LocalDateTime.now());
         repo.save(t);
     }
 }

@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tasks")
+@Table(name = "task")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -26,7 +26,6 @@ public class TaskEntity {
     private Boolean completed = false;
 
     private LocalDateTime createdAt;
-    private LocalDateTime completedAt;
 
 
 }
