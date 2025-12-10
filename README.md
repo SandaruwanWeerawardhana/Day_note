@@ -365,6 +365,30 @@ POST /api/tasks
 
 ## 🔧 Configuration
 
+### Backend Configuration (`application.yaml`)
+
+Create or update `backend/backend/src/main/resources/application.yaml` with:
+
+```yaml
+server:
+   port: ${SERVER_PORT:8080}
+
+spring:
+   datasource:
+      url: ${DB_URL:jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true}
+      username: ${DB_USERNAME:root}
+      password: ${DB_PASSWORD:1234}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+   jpa:
+      hibernate:
+         ddl-auto: update
+      show-sql: true
+```
+
+- For local MySQL, keep `DB_URL` as `jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true`.
+- For Docker Compose, set `DB_URL` to `jdbc:mysql://mysql:3306/todo?createDatabaseIfNotExist=true` (uses the service name `mysql`).
+
 ### Backend Environment Variables
 
 | Variable | Default | Description |
