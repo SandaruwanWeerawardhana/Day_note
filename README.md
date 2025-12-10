@@ -182,33 +182,114 @@ The frontend will be available at `http://localhost:5173`
 
 ## 🐳 Docker
 
+### Setup Docker Files
+
+Since Docker files are not included in the repository, you need to create them first.
+
+#### 1. Create Frontend Dockerfile
+
+Create `frontend/Dockerfile`:
+```dockerfile
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+RUN npm install -g serve
+
+EXPOSE 5173
+
+CMD ["serve", "-s", "dist", "-l", "5173"]
+```
+
+#### 2. Create Backend Dockerfile
+
+Create `backend/backend/Dockerfile`:
+```dockerfile
+FROM eclipse-temurin:21-jdk
+
+COPY target/backend-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]
+```
+
+> **Note:** Before building the backend Docker image, you need to build the JAR file first:
+> ```bash
+> cd backend/backend
+> mvn clean package -DskipTests
+> ```
+
 ### Using Docker Compose (Recommended)
 
 The easiest way to run the entire application stack is using Docker Compose. This will start MySQL, Backend, and Frontend services together.
 
 1. Make sure Docker and Docker Compose are installed on your system
 
-2. From the project root directory, run:
+2. Create a `docker-compose.yml` file in the project root directory:
+   ```yaml
+   version: "3.8"
+
+   services:
+     mysql:
+       image: mysql:8
+       container_name: mysql_db
+       environment:
+         MYSQL_ROOT_PASSWORD: 1234
+         MYSQL_DATABASE: todo_app
+         MYSQL_USER: user  
+         MYSQL_PASSWORD: 1234
+       ports:
+         - "3306:3306"
+
+     backend:
+       build: 
+         context: ./backend/backend
+         dockerfile: Dockerfile
+       container_name: backend
+       ports:
+         - "8080:8080"
+       depends_on:
+         - mysql
+
+     frontend:
+       build: ./frontend
+       container_name: frontend
+       ports:
+         - "5173:5173"
+       depends_on:
+         - backend
+   ```
+
+3. Run the application:
    ```bash
    docker-compose up --build
    ```
 
-3. To run in detached mode (background):
+4. To run in detached mode (background):
    ```bash
    docker-compose up -d --build
    ```
 
-4. Access the application:
+5. Access the application:
    - **Frontend:** http://localhost:5173
    - **Backend API:** http://localhost:8080
    - **MySQL:** localhost:3306
 
-5. To stop all services:
+6. To stop all services:
    ```bash
    docker-compose down
    ```
 
-6. To stop and remove all data (including database):
+7. To stop and remove all data (including database):
    ```bash
    docker-compose down -v
    ```
@@ -283,6 +364,30 @@ POST /api/tasks
 - ✅ Loading states
 
 ## 🔧 Configuration
+
+### Backend Configuration (`application.yaml`)
+
+Create or update `backend/backend/src/main/resources/application.yaml` with:
+
+```yaml
+server:
+   port: ${SERVER_PORT:8080}
+
+spring:
+   datasource:
+      url: ${DB_URL:jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true}
+      username: ${DB_USERNAME:root}
+      password: ${DB_PASSWORD:1234}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+   jpa:
+      hibernate:
+         ddl-auto: update
+      show-sql: true
+```
+
+- For local MySQL, keep `DB_URL` as `jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true`.
+- For Docker Compose, set `DB_URL` to `jdbc:mysql://mysql:3306/todo?createDatabaseIfNotExist=true` (uses the service name `mysql`).
 
 ### Backend Environment Variables
 
