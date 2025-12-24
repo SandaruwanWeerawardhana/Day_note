@@ -248,7 +248,7 @@ The easiest way to run the entire application stack is using Docker Compose. Thi
          MYSQL_USER: user  
          MYSQL_PASSWORD: 1234
        ports:
-         - "3306:3306"
+         - "3307:3306"
 
      backend:
        build: 
