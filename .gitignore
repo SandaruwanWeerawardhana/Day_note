@@ -28,6 +28,5 @@ Thumbs.db
 *.swp
 .history
 
-# Docker
-docker-compose.yml
+
 
